@@ -29,10 +29,11 @@ mac: ensure_dest
 ensure_dest:
 	mkdir -p $(DEST)
 
-gen_release_msg:
-	echo "# Hello World (commit $(echo '1'))" > message.md
-	echo >> message.md
-	echo "Latest commit message: $(git log -1 --pretty=%B)" >> message.md
+release_message:
+	echo "# Hello World (commit \`$(shell git log -1 --pretty=%h)\`)  " > release.md
+	echo >> release.md
+	echo "Latest commit message: \`$(shell git log -1 --pretty=%s)\`  " >> release.md
+	echo "Commit author: $(shell git log -1 --pretty='[%cn](mailto:%ce) on %cs')  " >> release.md
 
 clean:
 	rm -r $(DEST)
