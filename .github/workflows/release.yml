@@ -1,0 +1,20 @@
+name: release.yml
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: "Compile"
+        run: make
+      - name: "Generate Release Message"
+        run: make release_message
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "dist/*"
+          bodyFile: "body.md"
