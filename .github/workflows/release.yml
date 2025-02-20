@@ -4,7 +4,17 @@ on:
     branches: ["main"]
 
 jobs:
+  tag:
+    name: Generate release tag from current time
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.parse.outputs.tag }}
+    steps:
+      - name: Parse time
+        id: parse
+        run: echo "TAG=$(TZ='America/Chicago' date +"%Y/%m/%d-%T-cst")" >> "$GITHUB_OUTPUT"
   build:
+    name: Build for all applicable targets
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -14,11 +24,9 @@ jobs:
         run: make
       - name: "Generate Release Message"
         run: make release_message
-      - name: "Parse Release Timestamp"
-        run: echo "TIMESTAMP=$(TZ='America/Chicago' date +"%Y/%m/%d-%T-cst")" >> ${GITHUB_ENV}
       - uses: ncipollo/release-action@v1
         with:
           artifacts: "dist/*"
           bodyFile: "release.md"
           commit: '${{ github.sha }}'
-          tag: 'release_${{ env.timestamp }}'
+          tag: '${{ steps.tag.outputs.tag }}'
