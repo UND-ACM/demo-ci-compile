@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Parse time
         id: parse
-        run: echo "TAG=$(TZ='America/Chicago' date +"%Y/%m/%d-%T-cst")" >> "$GITHUB_OUTPUT"
+        run: echo "TAG=$(TZ='America/Chicago' date +"%Y.%m.%d-%H.%M.%S-cst")" >> "$GITHUB_OUTPUT"
   build:
     name: Build for all applicable targets
     runs-on: ubuntu-latest
