@@ -14,9 +14,11 @@ jobs:
         run: make
       - name: "Generate Release Message"
         run: make release_message
+      - name: "Parse Release Timestamp"
+        run: echo "TIMESTAMP=$(TZ='America/Chicago' date +"%Y/%m/%d-%T-cst")" >> ${GITHUB_ENV}
       - uses: ncipollo/release-action@v1
         with:
           artifacts: "dist/*"
           bodyFile: "release.md"
           commit: '${{ github.sha }}'
-          tag: 'rel_${{ github.sha }}'
+          tag: 'release_${{ env.timestamp }}'
