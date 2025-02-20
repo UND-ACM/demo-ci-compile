@@ -30,4 +30,4 @@ jobs:
           artifacts: "dist/*"
           bodyFile: "release.md"
           commit: '${{ github.sha }}'
-          tag: '${{ steps.tag.outputs.tag }}'
+          tag: '${{ needs.tag.outputs.tag }}'
