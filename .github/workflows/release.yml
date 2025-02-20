@@ -18,4 +18,5 @@ jobs:
         with:
           artifacts: "dist/*"
           bodyFile: "release.md"
-          tag: 'rel_${{ github.workflow_sha }}'
+          commit: '${{ github.sha }}'
+          tag: 'rel_${{ github.sha }}'
